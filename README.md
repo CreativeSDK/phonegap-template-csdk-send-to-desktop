@@ -22,6 +22,8 @@
 phonegap-template-csdk-send-to-desktop
 ------------------------
 
+[![Stories in Ready](https://badge.waffle.io/CreativeSDK/phonegap-template-csdk-send-to-desktop.png?label=ready&title=Ready)](http://waffle.io/CreativeSDK/phonegap-template-csdk-send-to-desktop)
+
 This is a PhoneGap template to help you quickly get started with the Creative SDK [Send To Desktop API](https://github.com/CreativeSDK/phonegap-plugin-csdk-send-to-desktop) and [Image Editor UI](https://github.com/CreativeSDK/phonegap-plugin-csdk-image-editor) plugins.
 
 ### Contents
