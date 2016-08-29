@@ -19,6 +19,7 @@
 var app = {
     // Application Constructor
     initialize: function() {
+        this.elements.userAuthGreeting.style.visibility = "hidden";
         this.bindEvents();
     },
     // Bind Event Listeners
@@ -27,8 +28,17 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
-        document.getElementById('launch-editor').addEventListener('click', this.launchEditor, false);
-        document.getElementById('take-picture').addEventListener('click', this.takePicture, false);
+
+        this.elements.editPictureButton.addEventListener('click', this.editPicture, false);
+        this.elements.editPictureButton.disabled = true;
+
+        this.elements.sendToDesktopButton.addEventListener('click', this.sendToDesktop, false);
+        this.elements.sendToDesktopButton.disabled = true;
+
+        this.elements.takePictureButton.addEventListener('click', this.takePicture, false);
+        this.elements.takePictureButton.disabled = true;
+
+        this.elements.userAuthButton.addEventListener('click', this.handleAuth, false);  
     },
     // deviceready Event Handler
     //
@@ -48,34 +58,20 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
-    /* Make a helper function to launch the Image Editor */
-    launchEditor: function() {
-
-        var imageUrl = document.getElementById('target-image').src;
-        app.openEditor(imageUrl);
-    },
-    takePicture: function() {
-        navigator.camera.getPicture(function(picUri){
-            app.openEditor(picUri);
-        }, function(message) {
-            console.log('Failed because: ' + message);
-        }, {
-            quality: 100,
-            destinationType: Camera.DestinationType.FILE_URI
-        });
-    },
-    openEditor: function(imageUrl) {
+    editPicture: function() {
         /* Prep work for calling `.edit()` */
         function success(newUrl) {
             console.log("Success!", newUrl);
-            document.getElementById('target-image').src = newUrl;
+
+            app.elements.targetImage.src = newUrl;
         }
 
         function error(error) {
             console.log("Error!", error);
         }
 
-        /* Optional `options` object. See API guide for usage. */
+        var imageUrl = app.elements.targetImage.src;
+
         var options = {
             // outputType: CSDKImageEditor.OutputType.JPEG,
             // tools: [
@@ -87,5 +83,125 @@ var app = {
 
         /* Launch the Image Editor */
         CSDKImageEditor.edit(success, error, imageUrl, options);
-    }
+    },
+    elements: {
+        editPictureButton: document.getElementById('edit-picture'),
+        loginPrompt: document.getElementById('login-prompt'),
+        sendToDesktopButton: document.getElementById('send-to-desktop'),
+        takePictureButton: document.getElementById('take-picture'),
+        targetImage: document.getElementById('target-image'),
+        throbber: document.getElementById('throbber'),
+        userAuthButton: document.getElementById('user-auth'),
+        userAuthGreeting: document.getElementById('user-greeting')
+    },
+    handleAuth: function() {
+        if (app.user) {
+            app.logout();
+        }
+        else {
+            app.login();
+        }
+    },
+    login: function() {
+
+        /* Prep work for calling `.login()` */
+        function success(userObject) {
+            console.log("Login Success!", userObject);
+
+            app.user = userObject;
+            app.elements.loginPrompt.style.visibility = "hidden";
+            app.elements.userAuthButton.innerHTML = "Log Out";
+            app.elements.userAuthGreeting.innerHTML = "Welcome, " + app.user.displayName;
+            app.elements.userAuthGreeting.style.visibility = "visible";
+            app.elements.targetImage.style.opacity = 1;
+            app.toggleButtons();
+        }
+
+        function error(error) {
+            console.log("Error!", error);
+        }
+
+        /* Launch User Auth UI */
+        CSDKUserAuth.login(success, error);
+    },
+    logout: function() {
+
+        /* Prep work for calling `.logout()` */
+        function success() {
+            console.log("Logout Success!");
+
+            app.user = null;
+            app.elements.loginPrompt.style.visibility = "visible";
+            app.elements.userAuthButton.innerHTML = "Log In";
+            app.elements.userAuthGreeting.innerHTML = "Welcome";
+            app.elements.userAuthGreeting.style.visibility = "hidden";
+            app.elements.targetImage.style.opacity = .5;
+            app.toggleButtons();
+        }
+
+        function error(error) {
+            console.log("Error!", error);
+        }
+
+        /* Log out user */
+        CSDKUserAuth.logout(success, error);
+    },
+    /* Make a helper function to send to Adobe desktop apps */
+    sendToDesktop: function() {
+
+        /* Prep work for calling `.send()` */
+        function success() {
+            console.log("Sent to Photoshop!");
+
+            app.elements.throbber.style.visibility = "hidden";
+            app.elements.targetImage.style.opacity = 1;
+        }
+
+        function error(error) {
+            console.log("Error!", error);
+
+            app.elements.throbber.style.visibility = "hidden";
+            app.elements.targetImage.style.opacity = 1;
+        }
+
+        var uri = document.getElementById('target-image').src;
+
+        var ccApplication = CSDKSendToDesktop.AppType.PHOTOSHOP;
+
+        var mimeType = "image/jpeg";
+
+
+        /*
+            Send to desktop
+            ---------------
+            NOTE: your user must be logged in (`this.login`) via the
+            User Auth plugin BEFORE calling this.
+
+            See the User Auth plugin repo's sample code for more info.
+        */
+        if (app.user) {
+            app.elements.throbber.style.visibility = "visible";
+            app.elements.targetImage.style.opacity = .5;
+            CSDKSendToDesktop.send(success, error, uri, ccApplication, mimeType);
+        }
+        else {
+            console.log("Log in first!");
+        }
+    },
+    takePicture: function() {
+        navigator.camera.getPicture(function(picUri) {
+            document.getElementById('target-image').src = picUri;
+        }, function(message) {
+            console.log('Failed because: ' + message);
+        }, {
+            quality: 100,
+            destinationType: Camera.DestinationType.FILE_URI
+        });
+    },
+    toggleButtons: function() { 
+        app.elements.editPictureButton.disabled = !app.elements.editPictureButton.disabled;
+        app.elements.sendToDesktopButton.disabled = !app.elements.sendToDesktopButton.disabled;
+        app.elements.takePictureButton.disabled = !app.elements.takePictureButton.disabled;   
+    },
+    user: null
 };
