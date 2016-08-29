@@ -44,11 +44,20 @@
 
 <body>
     <div class="app">
-        <h1>Creative SDK Image Editor</h1>
+        <h1>Creative SDK Send To Desktop API</h1>
         <h2>For PhoneGap</h2>
-        <button id="launch-editor">Edit Image</button>
-        <button id="take-picture">Take Picture</button>
+        <div id="user-auth-buttons">
+            <button id="user-auth">Log In</button>
+            <p id="user-greeting">Welcome</p>
+        </div>
+        <div id="photo-action-buttons">
+            <button id="take-picture">Take Picture</button>
+            <button id="edit-picture">Edit</button>
+            <button id="send-to-desktop">Send to Photoshop</button>
+        </div>
         <img id="target-image" src="img/grafitti.jpeg">
+        <p id="login-prompt">Log in for Send To Desktop magic!</p>
+        <img id="throbber" src="img/throbber.gif">
     </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
