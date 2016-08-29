@@ -19,7 +19,7 @@
 var app = {
     // Application Constructor
     initialize: function() {
-        this.elements.userAuthGreeting.style.visibility = "hidden";
+        this.initializeUI();
         this.bindEvents();
     },
     // Bind Event Listeners
@@ -30,14 +30,8 @@ var app = {
         document.addEventListener('deviceready', this.onDeviceReady, false);
 
         this.elements.editPictureButton.addEventListener('click', this.editPicture, false);
-        this.elements.editPictureButton.disabled = true;
-
         this.elements.sendToDesktopButton.addEventListener('click', this.sendToDesktop, false);
-        this.elements.sendToDesktopButton.disabled = true;
-
         this.elements.takePictureButton.addEventListener('click', this.takePicture, false);
-        this.elements.takePictureButton.disabled = true;
-
         this.elements.userAuthButton.addEventListener('click', this.handleAuth, false);  
     },
     // deviceready Event Handler
@@ -101,6 +95,12 @@ var app = {
         else {
             app.login();
         }
+    },
+    initializeUI: function() {
+        this.elements.userAuthGreeting.style.visibility = "hidden";
+        this.elements.editPictureButton.disabled = true;
+        this.elements.sendToDesktopButton.disabled = true;
+        this.elements.takePictureButton.disabled = true;
     },
     login: function() {
 
