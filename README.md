@@ -22,4 +22,82 @@
 phonegap-template-csdk-send-to-desktop
 ------------------------
 
-Under development. Please check back later!
+This is a PhoneGap template to help you quickly get started with the Creative SDK [Send To Desktop API](https://github.com/CreativeSDK/phonegap-plugin-csdk-send-to-desktop) and [Image Editor UI](https://github.com/CreativeSDK/phonegap-plugin-csdk-image-editor) plugins.
+
+### Contents
+
+- [Prerequisites](#prerequisites)
+- [Setup guide](#setup-guide)
+- [Sample code](#sample-code)
+- [Learn more](#learn-more)
+
+# Prerequisites
+
+**Required:** This guide will assume that you have followed the ["Prerequisites" section of the Creative SDK Client Auth plugin guide](https://github.com/CreativeSDK/phonegap-plugin-csdk-client-auth#prerequisites), particularly:
+
+- install all software noted in that section
+- receive a Creative SDK Client ID and Secret for each platform you plan to build for
+
+# Setup guide
+
+1. Create your app
+
+	```
+	phonegap create tempcsdk --template phonegap-template-csdk-send-to-desktop
+	```
+
+1. Add your Creative SDK Client ID and Secret values
+
+	Open `config.xml` and find the `<plugin name="phonegap-plugin-csdk-client-auth" ... >` element.
+
+	You can add your Client ID and Secret values to the appropriate `variable`'s here.
+
+1. Run `phonegap prepare` to fetch the plugins
+
+1. **iOS only:** download and add the Creative SDK
+
+	_(Android developers: this step is handled for you automatically by the plugin.)_
+
+	You can get the Creative SDK for iOS from the [Downloads page](https://creativesdk.adobe.com/downloads.html).
+
+	Add the extracted `AdobeCreativeSDKFrameworks` folder to these directories:
+
+		- `plugins/phonegap-plugin-csdk-client-auth/src/ios`
+		- `plugins/phonegap-plugin-csdk-image-editor/src/ios`
+		- `plugins/phonegap-plugin-csdk-user-auth/src/ios`
+
+1. Add the platforms you intend to build for:
+
+	```
+	phonegap platform rm ios
+	phonegap platform rm android
+	phonegap platform add ios
+	phonegap platform add android
+	```
+
+	The remove is a precautionary step.
+
+1. Run for your platform(s)
+
+	```
+	phonegap run ios
+	phonegap run android
+	```
+
+# Sample code
+
+You can find the relevant sample code in these files:
+
+- `www/index.html`
+- `www/js/index.js`
+
+# Learn more
+
+Want to learn more about the Creative SDK PhoneGap plugins used in this template?
+
+The READMEs for the plugin repos contain Setup and API guides, as well as sample code, to help you learn quickly:
+
+- [Client Auth](https://github.com/CreativeSDK/phonegap-plugin-csdk-client-auth): The starting point for all Creative SDK integrations
+- [User Auth](https://github.com/CreativeSDK/phonegap-plugin-csdk-user-auth): Let users log in to their Adobe Creative Cloud accounts, right from within your app
+- [Image Editor UI](https://github.com/CreativeSDK/phonegap-plugin-csdk-image-editor): Powerful photo editing for mobile apps
+- [Send To Desktop API](https://github.com/CreativeSDK/phonegap-plugin-csdk-send-to-desktop): Magically send images from mobile to Photoshop, Illustrator, or InDesign
