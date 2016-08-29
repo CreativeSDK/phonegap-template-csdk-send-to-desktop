@@ -24,7 +24,7 @@ Quick overview:
 [Fork](https://help.github.com/articles/fork-a-repo/), then [clone](https://help.github.com/articles/cloning-a-repository/) the repo:
 
 ```
-git clone git@github.com:your-username/phonegap-plugin-csdk-image-editor.git
+git clone git@github.com:your-username/phonegap-template-csdk-send-to-desktop.git
 ```
 
 Set up a branch for your feature or bugfix with a link to the original repo:
@@ -32,7 +32,7 @@ Set up a branch for your feature or bugfix with a link to the original repo:
 ```
 git checkout -b my-awesome-new-feature
 git push --set-upstream origin my-awesome-new-feature
-git remote add upstream https://github.com/CreativeSDK/phonegap-plugin-csdk-image-editor
+git remote add upstream https://github.com/CreativeSDK/phonegap-template-csdk-send-to-desktop
 ```
 
 
