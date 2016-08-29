@@ -48,19 +48,24 @@ body {
 .app {
     position:absolute;             /* position in the center of the screen */
     text-align:center;
-    margin-top: 50px;
+    margin-top:50px;  
 }
 
 /* Landscape layout (with min-width) */
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
     .app {
         background-position:left center;
-        margin: 50px;
+        margin:50px;  /* offset vertical: half of image height */
+                                      /* offset horizontal: half of image width and text area width */
     }
 }
 
 h1 {
     text-align:center;
+    font-size:1.75em;
+}
+h2 {
+    font-size: 1.4em;
 }
 
 .event {
@@ -98,6 +103,10 @@ img {
     max-width: 100%;
 }
 
+#target-image {
+    opacity: .5;
+}
+
 button {
     background-color:#33bdef;
     border-radius:28px;
@@ -106,7 +115,6 @@ button {
     color:#ffffff;
     font-size:17px;
     padding:16px 31px;
-    margin: 20px;
 }
 button:hover {
     background-color:#019ad2;
@@ -115,4 +123,53 @@ button:active {
     position:relative;
     top:1px;
 }
+button:disabled {
+    background-color: darkgray;
+    color: gray;
+}
 
+#photo-action-buttons {
+    width: 100%;
+    font-size: 0;
+}
+
+#photo-action-buttons button {
+    border-radius: 0;
+    margin: -.25px;
+    font-size: 12px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+button#take-picture {
+    width: 35%;
+}
+button#edit-picture {
+    width: 20%;
+}
+button#send-to-desktop {
+    width: 45%;
+}
+
+
+#photo-action-buttons button:last-child {
+    border-left: 1px solid gray;
+}
+#photo-action-buttons button:nth-child(2) {
+    border-left: 1px solid gray;
+}
+
+#login-prompt {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: gray;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    transform: translate(0, -8em);
+}
+
+#throbber {
+    transform: translate(0, -16em);
+    visibility: hidden;   
+}
