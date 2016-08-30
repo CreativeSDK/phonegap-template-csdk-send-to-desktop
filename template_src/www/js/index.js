@@ -195,7 +195,8 @@ var app = {
             console.log('Failed because: ' + message);
         }, {
             quality: 100,
-            destinationType: Camera.DestinationType.FILE_URI
+            destinationType: Camera.DestinationType.FILE_URI,
+            correctOrientation: true
         });
     },
     toggleButtons: function() { 
